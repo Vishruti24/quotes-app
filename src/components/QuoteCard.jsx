@@ -6,11 +6,18 @@ function QuoteCard({ onCreatePost }) {
   // Fetch random quote from API 
   const fetchQuote = async () => {
     try {
-      const res = await fetch("https://api.api-ninjas.com/v1/quotes", {
-        headers: {
-          "X-Api-Key": "Zzop0MueaPgHLppsDwLqpg==VjrowO8Xf2uOZVPE", 
-        },
-      });
+      // const res = await fetch("https://api.api-ninjas.com/v1/quotes", {
+      //   headers: {
+      //     "X-Api-Key": "Zzop0MueaPgHLppsDwLqpg==VjrowO8Xf2uOZVPE", 
+      //   },
+      // });
+const API_KEY = import.meta.env.VITE_QUOTES_API_KEY;
+
+const res = await fetch("https://api.api-ninjas.com/v1/quotes", {
+  headers: {
+    "X-Api-Key": API_KEY,
+  },
+});
 
       const data = await res.json();
       console.log(data);
