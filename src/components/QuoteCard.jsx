@@ -3,26 +3,16 @@ import { useState, useEffect } from "react";
 function QuoteCard({ onCreatePost }) {
   const [quote, setQuote] = useState(null);
 
-  // Fetch random quote from API 
+  // Fetch random quote
   const fetchQuote = async () => {
     try {
-      // const res = await fetch("https://api.api-ninjas.com/v1/quotes", {
-      //   headers: {
-      //     "X-Api-Key": "Zzop0MueaPgHLppsDwLqpg==VjrowO8Xf2uOZVPE", 
-      //   },
-      // });
-const API_KEY = import.meta.env.VITE_QUOTES_API_KEY;
+      const API_KEY = import.meta.env.VITE_QUOTES_API_KEY;
 
-const res = await fetch("https://api.api-ninjas.com/v1/quotes", {
-  headers: {
-    "X-Api-Key": API_KEY,
-  },
-});
+      const res = await fetch("https://api.api-ninjas.com/v1/quotes", {
+        headers: { "X-Api-Key": API_KEY },
+      });
 
       const data = await res.json();
-      console.log(data);
-
-      //  array like: [{quote: "...", author: "..."}]
       if (data && data.length > 0) {
         setQuote(data[0]);
       }
@@ -36,32 +26,32 @@ const res = await fetch("https://api.api-ninjas.com/v1/quotes", {
   }, []);
 
   return (
-    <div className="card border p-3 shadow-sm my-3">
+    <div className="quote-card card border-0 shadow-lg p-4 mb-4 animate__animated animate__fadeIn">
       {quote ? (
         <>
-          <p className="fs-5">"{quote.quote}"</p>
-          <p className="text-muted">- {quote.author}</p>
-          <div className="d-flex gap-2">
-
+          <blockquote className="blockquote">
+            <p className="fs-5">“{quote.quote}”</p>
+            <footer className="blockquote-footer">{quote.author}</footer>
+          </blockquote>
+          <div className="d-flex gap-3 mt-3 justify-content-center">
             <button
-  className="btn btn-primary"
-  onClick={() =>
-    onCreatePost({
-      content: quote.quote,  
-      author: quote.author,
-    })
-  }
->
-  Create Post
-</button>
-
-            <button className="btn btn-secondary" onClick={fetchQuote}>
+              className="btn btn-primary btn-lg animate__animated animate__pulse animate__infinite"
+              onClick={() =>
+                onCreatePost({
+                  content: quote.quote,
+                  author: quote.author,
+                })
+              }
+            >
+              Create Post
+            </button>
+            <button className="btn btn-dark btn-lg" onClick={fetchQuote}>
               New Quote
             </button>
           </div>
         </>
       ) : (
-        <p>Loading...</p>
+        <p className="text-center">Loading...</p>
       )}
     </div>
   );
